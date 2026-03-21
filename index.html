@@ -1,41 +1,144 @@
 <!DOCTYPE html>
-<html lang="ar" dir="ltr">
+<html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>آلة حاسبة ذكية</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Coca-Cola | الموقع الرسمي للمسابقات</title>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+    <style>
+        :root { --coke-red: #fe001a; --dark: #121212; }
+        body { font-family: 'Segoe UI', Tahoma, sans-serif; margin: 0; background: #fdfdfd; overflow-x: hidden; }
+        
+        /* Navbar */
+        .navbar { background: white; padding: 15px 5%; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        .navbar img { width: 100px; }
+        .nav-links { display: flex; gap: 20px; }
+        .nav-links span { color: #555; cursor: pointer; font-size: 0.9rem; }
+
+        /* Hero Section (الإشهار) */
+        .hero { background: var(--coke-red); color: white; padding: 60px 5%; text-align: center; position: relative; }
+        .hero h1 { font-size: 2.5rem; margin-bottom: 10px; }
+        .hero p { font-size: 1.2rem; opacity: 0.9; }
+        
+        /* الأزرار المتعددة */
+        .promo-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px; padding: 40px 5%; max-width: 1000px; margin: 0 auto; }
+        .promo-btn { background: white; border: 2px solid #eee; padding: 20px; border-radius: 15px; cursor: pointer; transition: 0.3s; text-align: center; font-weight: bold; }
+        .promo-btn:hover { border-color: var(--coke-red); transform: translateY(-5px); }
+        .promo-btn i { font-size: 2rem; display: block; margin-bottom: 10px; }
+        
+        /* الزر الرئيسي للربح */
+        .win-btn { background: #ffd700; color: #000; border: none; font-size: 1.3rem; padding: 20px 40px; border-radius: 50px; cursor: pointer; font-weight: bold; box-shadow: 0 10px 20px rgba(0,0,0,0.2); animation: pulse 1.5s infinite; }
+
+        /* الشاشات المخفية (التسجيل والكود) */
+        .modal-overlay { display: none; position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.8); z-index: 1000; justify-content: center; align-items: center; }
+        .app-box { background: white; padding: 30px; border-radius: 20px; width: 90%; max-width: 380px; text-align: center; position: relative; }
+        input { width: 100%; padding: 14px; margin: 10px 0; border: 2px solid #eee; border-radius: 10px; box-sizing: border-box; }
+        .action-btn { background: var(--coke-red); color: white; border: none; padding: 15px; width: 100%; border-radius: 10px; font-weight: bold; cursor: pointer; }
+
+        /* شاشة الصدمة */
+        #final-trap { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: white; z-index: 10000; flex-direction: column; justify-content: center; align-items: center; text-align: center; }
+        @keyframes pulse { 0% {transform: scale(1);} 50% {transform: scale(1.05);} 100% {transform: scale(1);} }
+    </style>
 </head>
 <body>
-    <div class="calculator">
-        <div class="display">
-            <input type="text" id="screen" placeholder="0" disabled>
-        </div>
-        <div class="buttons">
-            <button class="btn btn-red" onclick="clearScreen()">C</button>
-            <button class="btn btn-gray" onclick="deleteChar()">DEL</button>
-            <button class="btn btn-gray" onclick="appendToScreen('/')">÷</button>
-            <button class="btn btn-gray" onclick="appendToScreen('*')">×</button>
-            
-            <button class="btn" onclick="appendToScreen('7')">7</button>
-            <button class="btn" onclick="appendToScreen('8')">8</button>
-            <button class="btn" onclick="appendToScreen('9')">9</button>
-            <button class="btn btn-gray" onclick="appendToScreen('-')">−</button>
-            
-            <button class="btn" onclick="appendToScreen('4')">4</button>
-            <button class="btn" onclick="appendToScreen('5')">5</button>
-            <button class="btn" onclick="appendToScreen('6')">6</button>
-            <button class="btn btn-gray" onclick="appendToScreen('+')">+</button>
-            
-            <button class="btn" onclick="appendToScreen('1')">1</button>
-            <button class="btn" onclick="appendToScreen('2')">2</button>
-            <button class="btn" onclick="appendToScreen('3')">3</button>
-            <button class="btn btn-blue" onclick="calculate()">=</button>
-            
-            <button class="btn btn-zero" onclick="appendToScreen('0')">0</button>
-            <button class="btn" onclick="appendToScreen('.')">.</button>
+
+<div id="landing-page">
+    <div class="navbar">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/c/ce/Coca-Cola_logo.svg" alt="CocaCola">
+        <div class="nav-links">
+            <span>منتجاتنا</span>
+            <span>تاريخنا</span>
+            <span>اتصل بنا</span>
         </div>
     </div>
-    <script src="script.js"></script>
+
+    <div class="hero">
+        <h1>صيف 2026 مع كوكاكولا!</h1>
+        <p>استمتع بالانتعاش وادخل عالم المفاجآت الكبرى</p>
+        <br>
+        <button class="win-btn" onclick="startApp()">🏆 شارك واربح المليار درهم 🏆</button>
+    </div>
+
+    <div class="promo-grid">
+        <div class="promo-btn">📸<br>معرض الصور</div>
+        <div class="promo-btn" onclick="startApp()">🔑<br>أدخل الكود</div>
+        <div class="promo-btn">⚽<br>نتائج المباريات</div>
+        <div class="promo-btn">🌍<br>عروض دولية</div>
+    </div>
+    
+    <div style="text-align: center; padding: 20px;">
+        <img src="https://www.coca-cola.com/content/dam/onexp/ma/ar/home-images/coke-bottles.png" style="width: 80%; max-width: 400px; opacity: 0.8;">
+    </div>
+</div>
+
+<div class="modal-overlay" id="modal">
+    <div class="app-box">
+        <div id="step-login">
+            <h2 style="color: var(--coke-red);">تسجيل الدخول</h2>
+            <p>سجل حسابك لضمان استلام الجائزة</p>
+            <input type="text" placeholder="رقم الهاتف">
+            <button class="action-btn" onclick="nextStep('step-code')">دخول سريع</button>
+        </div>
+
+        <div id="step-code" style="display: none;">
+            <h2 style="color: var(--coke-red);">أدخل كود الغطاء</h2>
+            <p id="instr">اكتب الكود الموجود تحت "البوشون":</p>
+            <input type="text" id="codeInp" placeholder="مثال: X7R2... ">
+            <button class="action-btn" onclick="handleCode()">إرسال الكود</button>
+        </div>
+
+        <div id="step-data" style="display: none;">
+            <h2 style="color: #27ae60;">🎉 مبروك الفوز! 🎉</h2>
+            <p>لقد ربحت <b>مليار درهم</b>! أدخل بياناتك:</p>
+            <input type="text" placeholder="الاسم الكامل">
+            <input type="text" placeholder="رقم الحساب البنكي (RIB)">
+            <button class="action-btn" onclick="triggerFinal()" style="background: #27ae60;">تأكيد الاستلام</button>
+        </div>
+    </div>
+</div>
+
+<div id="final-trap">
+    <h1 style="color: var(--coke-red); font-size: 4rem;">⏰ نـووض!</h1>
+    <h2 style="font-size: 2rem;">ماربحتي والو يا مزلوط! 😂</h2>
+    <p style="font-size: 1.2rem; margin-top: 20px;">المليار لقيناه حتى حنا عاد نعطيوه ليك.</p>
+    <button class="action-btn" style="width: 250px; margin-top: 30px;" onclick="location.reload()">ورك هنايا، غير اللي لقيتيها ورك عليها!</button>
+</div>
+
+<script>
+    let attempts = 0;
+
+    function startApp() {
+        document.getElementById('modal').style.display = 'flex';
+    }
+
+    function nextStep(stepId) {
+        document.getElementById('step-login').style.display = 'none';
+        document.getElementById('step-code').style.display = 'block';
+    }
+
+    function handleCode() {
+        const val = document.getElementById('codeInp').value;
+        if(!val) { alert("أدخل الكود أولاً!"); return; }
+        
+        attempts++;
+        if(attempts === 1) {
+            alert("الكود خاطئ! حاول مرة أخرى بكود جديد.");
+            document.getElementById('codeInp').value = "";
+            document.getElementById('instr').innerHTML = "<b style='color:red;'>جرب كوداً آخر (المحاولة الأخيرة):</b>";
+        } else {
+            confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
+            document.getElementById('step-code').style.display = 'none';
+            document.getElementById('step-data').style.display = 'block';
+        }
+    }
+
+    function triggerFinal() {
+        document.getElementById('modal').style.display = 'none';
+        document.getElementById('landing-page').style.display = 'none';
+        document.getElementById('final-trap').style.display = 'flex';
+    }
+</script>
+
 </body>
 </html>
+
